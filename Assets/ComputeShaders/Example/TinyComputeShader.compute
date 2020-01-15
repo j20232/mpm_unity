@@ -1,0 +1,10 @@
+﻿#pragma kernel MulKernel
+
+RWStructuredBuffer<int> intBuffer;
+int intValue;
+
+[numthreads(4, 1, 1)]
+void MulKernel (uint3 groupID : SV_GroupID,
+                uint3 groupThreadID : SV_GroupThreadID){
+    intBuffer[groupThreadID.x] = groupThreadID.x + intValue;
+}
