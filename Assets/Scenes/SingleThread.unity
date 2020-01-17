@@ -323,7 +323,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b924c09a47c94e5e88627da39dbc3e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_gridResolution: 91
+  m_gridResolution: 100
   m_dt: 1
   m_simulationRenderer: {fileID: 2102494499}
   m_mouseRadius: 10
