@@ -165,7 +165,6 @@ public class MPMSingleThread : MonoBehaviour {
                 int y = i % m_gridResolution;
                 if (x < 2 || x > m_gridResolution - 3) { cell.v.x = 0; }
                 if (y < 2 || y > m_gridResolution - 3) { cell.v.y = 0; }
-
             }
             m_grid[i] = cell;
         }
@@ -227,4 +226,5 @@ public class MPMSingleThread : MonoBehaviour {
         m_particles.Dispose ();
         m_grid.Dispose ();
     }
+
 }

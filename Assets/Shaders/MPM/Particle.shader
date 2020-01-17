@@ -1,4 +1,4 @@
-﻿Shader "Instance/Particle"{
+﻿Shader "MPM/Particle"{
     Properties {
         _Color ("Color", Color) = (1,1,1,1)
         _Size ("Size", float) = 0.035
