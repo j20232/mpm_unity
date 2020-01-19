@@ -342,7 +342,7 @@ MonoBehaviour:
   m_planeX: {fileID: 1582953412}
   m_planeY: {fileID: 817162654}
   m_computeShader: {fileID: 7200000, guid: 939d42e909ecc876f96837eaebfef560, type: 3}
-  m_resolution: 7
+  m_resolution: 8
 --- !u!1 &1582953412
 GameObject:
   m_ObjectHideFlags: 0
