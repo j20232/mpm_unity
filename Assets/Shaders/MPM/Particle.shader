@@ -47,7 +47,6 @@
 
                 v2f o;
                 o.pos = mul(UNITY_MATRIX_VP, float4(worldPosition, 1.0f));
-
                 return o;
             }
 

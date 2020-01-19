@@ -56,9 +56,8 @@ public class MPMSingleThread : MonoBehaviour {
 
         // 1. Initialize the grid by filling the grid array with res x res cells
         m_grid = new NativeArray<Cell> (m_numCells, Allocator.Persistent);
-        for (int i = 0; i < m_numCells; i++) {
+        for (int i = 0; i < m_numCells; i++)
             m_grid[i] = new Cell ();
-        }
 
         // 2. Create a bunch of particles and set their positions somewhere
         List<float2> tempPositions = new List<float2> ();
@@ -90,9 +89,8 @@ public class MPMSingleThread : MonoBehaviour {
 
     void Update () {
         HandleMouseInteraction ();
-        for (int i = 0; i < m_iterations; i++) {
+        for (int i = 0; i < m_iterations; i++)
             Simulate ();
-        }
         m_simulationRenderer.RenderFrame (m_particles);
     }
 
@@ -184,6 +182,8 @@ public class MPMSingleThread : MonoBehaviour {
             m_weights[2] = 0.5f * math.pow (0.5f + cell_diff, 2);
 
             // construct affine per-particle momentum matrix from APIC
+            // below equation 11 for clarification. this is calculating C = B * (D^-1) for APIC equation 8,
+            // where B is calculated in the inner loop at (D^-1) = 4 is a constant when using quadratic interpolation functions
             float2x2 B = 0;
             for (uint gx = 0; gx < 3; gx++) {
                 for (uint gy = 0; gy < 3; gy++) {
@@ -197,9 +197,9 @@ public class MPMSingleThread : MonoBehaviour {
 
                     // APIC paper's equation (10)
                     var term = math.float2x2 (weighted_velocity * dist.x, weighted_velocity * dist.y);
+                    B += term;
 
                     // calculate new particle velocities
-                    B += term;
                     p.v += weighted_velocity;
                 }
             }
