@@ -11,26 +11,25 @@ public class MPMSingleThread : MonoBehaviour {
     struct Particle {
         public float2 x;
         public float2 v;
-        public float2x2 C;
+        public float2x2 C; // affine momentum matrix
         public float mass;
-        public float padding;
     }
 
     struct Cell {
         public float2 v;
         public float mass;
-        public float padding;
     }
 
     [SerializeField]
     int m_gridResolution = 32;
     int m_numCells;
 
-    [SerializeField]
+    [SerializeField, Range (0.1f, 2.0f)]
     float m_dt = 1.0f; // time step
     int m_iterations;
 
-    static float m_gravity = -0.05f;
+    [SerializeField, Range (-1.0f, -0.05f)]
+    float m_gravity = -0.05f;
     int m_numParticles;
 
     NativeArray<Particle> m_particles;
@@ -41,12 +40,11 @@ public class MPMSingleThread : MonoBehaviour {
     [SerializeField]
     SimulationRenderer m_simulationRenderer;
 
+    // Mouse
     [SerializeField]
     float m_mouseRadius = 10.0f;
-
     [SerializeField]
     bool m_mouseDown = false;
-
     float2 m_mousePos;
 
     // Start is called before the first frame update
@@ -56,8 +54,9 @@ public class MPMSingleThread : MonoBehaviour {
 
         // 1. Initialize the grid by filling the grid array with res x res cells
         m_grid = new NativeArray<Cell> (m_numCells, Allocator.Persistent);
-        for (int i = 0; i < m_numCells; i++)
+        for (int i = 0; i < m_numCells; i++) {
             m_grid[i] = new Cell ();
+        }
 
         // 2. Create a bunch of particles and set their positions somewhere
         List<float2> tempPositions = new List<float2> ();
@@ -89,8 +88,9 @@ public class MPMSingleThread : MonoBehaviour {
 
     void Update () {
         HandleMouseInteraction ();
-        for (int i = 0; i < m_iterations; i++)
+        for (int i = 0; i < m_iterations; i++) {
             Simulate ();
+        }
         m_simulationRenderer.RenderFrame (m_particles);
     }
 
@@ -197,9 +197,9 @@ public class MPMSingleThread : MonoBehaviour {
 
                     // APIC paper's equation (10)
                     var term = math.float2x2 (weighted_velocity * dist.x, weighted_velocity * dist.y);
-                    B += term;
 
                     // calculate new particle velocities
+                    B += term;
                     p.v += weighted_velocity;
                 }
             }
